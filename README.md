@@ -1,5 +1,14 @@
 # JSONP
 
+## 如何启动demo
+
+```shell
+$ git clone git@github.com:wojiaofengzhongzhuifeng/jsonp.git
+$ cd server
+$ node index.js
+# 进入 front 目录，打开 index.html
+```
+
 ## 如何使用 JSONP ?
 
 - 后端在原本接口的基础上`/api/user?id=123321`, 允许新增一个 params (callback12333333=fjdkalsjfdsa), 即可以通过 `/api/user?id=123321&callback12333333=fjdkalsjfdsa` 调用 api
