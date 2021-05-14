@@ -11,20 +11,40 @@
 
 
 <script>
-  let callbackName = 'test1223321'
-  window[callbackName] = function (data){
-    console.log('前端获取到的数据', data);
+  function stringifyParams(paramsObj){
+    return  Object.keys(paramsObj).map((key)=>{
+      return `${key}=${paramsObj[key]}`
+    }).join('&')
   }
 
-  let request = new XMLHttpRequest();
-  request.open('get', 'http://localhost:10010/api/user?id=123321')
-  request.onreadystatechange = function(){
-    if(request.readyState === 4 && request.status === 200){
-      console.log(request.responseText)
-    }
+  function jsonp({url, callback, params}){
+    let callbackName = `test1223321_${Math.floor(Math.random()* 100)}`;
+    window[callbackName] = callback
+    let script = document.createElement('script');
+    let allParams = {...params, callback: callbackName}
+    script.src = `${url}?${stringifyParams(allParams)}`
+    document.body.appendChild(script);
   }
-  request.send();
+  jsonp({
+    url: 'http://localhost:10010/api/user',
+    params: {
+      id: 123321
+    },
+    callback: function(data){
+      console.log(data);
+    },
+  })
+
+  jsonp({
+    url: 'http://localhost:10010/api/user',
+    params: {
+      id: 123323
+    },
+    callback: function(data){
+      console.log(data);
+    },
+  })
+
 </script>
-<script src="http://localhost:10010/api/user?id=123321&callback=test1223321"></script>
 </body>
 </html>
