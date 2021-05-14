@@ -11,7 +11,14 @@ const server = http.createServer((req, res) => {
       name: 'datafromserver-raojiajun',
       id: params.id
     }
-    res.end(JSON.stringify(mockData))
+    // 如果存在 callback pramas 说明需要使用 JSONP 获取数据,后端应该拼接 test1223321({name: 'datafromserver-raojiajun', id: 123321}) 字符串
+    if(params.callback){
+      let resData = `${params.callback}(${JSON.stringify(mockData)})`
+      res.end(resData)
+    } else {
+      res.end(JSON.stringify(mockData))
+    }
+
   }
 })
 
